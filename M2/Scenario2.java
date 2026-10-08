@@ -30,17 +30,22 @@ public class Scenario2 extends BaseClass {
         // Step 3: Add code to solve the problem (add/commit as needed)
         double total = 0;
         // Start Solution Edits
+        // Ucid: ggi, Date: 10/06/2026
+        //For first challenge loop through all element in the 'arr' array and accumlate their sum into total 
+        // for secodn chal use string.format("%.2f", total) to format the total to exactly 2 decimal places and assign it to a 'modiedtotal'
         // Solve Challenge 1 here
-
+        for (double val : arr){
+            total += val;
+        }
         // Solve Challenge 2 here
-        Object modifiedTotal = "?";
+        Object modifiedTotal = String.format("%.2f", total);
 
         // End Solution Edits
         printScenario2Output(total, modifiedTotal);
     }
 
     public static void main(String[] args) {
-        final String ucid = "mt85"; // <-- change to your UCID
+        final String ucid = "ggi"; // <-- change to your UCID
         // no edits below this line
         printHeader(ucid, 2);
         sumValues(array1, 1);

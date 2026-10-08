@@ -41,6 +41,41 @@ public class Scenario4 extends BaseClass {
 
         for (int i = 0; i < arr.length; i++) {
             // Start Solution Edits
+            //Ucid: ggi Date: 10/06/2026
+            // Get the current phrase from arr and remove everything that isnt a letter, digit or space 
+            // Trim the ends and collapse repeated spaces into one then split into words, uppercase the first letter, and lowercase the rest 
+            //Save the result in placeholderForModifedPhrase, find the middle index take 3 chacters and leave the last one and if theres nothing to take use "Not enough characters"
+            String phrase = arr[i];
+
+            // Challenge 1: remove non-alphanumeric characters except spaces
+            phrase = phrase.replaceAll("[^A-Za-z0-9 ]", "");
+
+            // Challenge 3: trim and collapse duplicate spaces
+            phrase = phrase.trim().replaceAll("\\s+", " ");
+
+            // Challenge 2: Title Case
+            StringBuilder sb = new StringBuilder();
+            for (String word : phrase.split(" ")) {
+                if (word.isEmpty()) {
+                    continue;
+                }
+                if (sb.length() > 0) {
+                    sb.append(" ");
+                }
+                sb.append(Character.toUpperCase(word.charAt(0)))
+                        .append(word.substring(1).toLowerCase());
+            }
+            placeholderForModifiedPhrase = sb.toString();
+
+            // Challenge 4: up to 3 middle characters
+            int len = placeholderForModifiedPhrase.length();
+            int start = len / 2;
+            int end = Math.min(start + 3, len - 1); // exclude the last character
+            if (end > start) {
+                placeholderForMiddleCharacters = placeholderForModifiedPhrase.substring(start, end);
+            } else {
+                placeholderForMiddleCharacters = "Not enough characters";
+            }
 
             // End Solution Edits
             System.out.println(String.format("Index[%d] \"%s\" | Middle: \"%s\"", i, placeholderForModifiedPhrase,

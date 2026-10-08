@@ -38,7 +38,7 @@ public class Scenario1 extends BaseClass {
         for (int num: arr) {
             if (num % 2 != 0) {
                 if (!first){ 
-                    System.out.print(", "):
+                    System.out.print(", ");
                 }
                 System.out.print(num);
                 first = false;    

@@ -27,13 +27,35 @@ public class Scenario3 extends BaseClass {
         // Step 3: Add code to solve the problem (add/commit as needed)
         Object[] output = new Object[arr.length];
         // Start Solution Edits
-
+        //Plan: Ucid: ggi Date: 10/06/2026
+        //first challenfe : loop through each element in 'arr' and convert negative values to positive 
+        //second challenge: check the type of each element using 'instanceof' (Integer,double,Float,string)
+        //to ensure that the values that are positive will keep their original data type before stroing it in output. 
+        for (int i = 0; i < arr.length; i++) {
+            Object item = arr[i];
+            if (item == null) {
+                output[i] = null;
+            } else if (item instanceof Integer) {
+                output[i] = Math.abs((Integer) item);
+            } else if (item instanceof Double) {
+                output[i] = Math.abs((Double) item);
+            } else if (item instanceof Float) {
+                output[i] = Math.abs((Float) item);
+            } else if (item instanceof Long) {
+                output[i] = Math.abs((Long) item);
+            } else if (item instanceof String) {
+                String str = (String) item;
+                output[i] = str.startsWith("-") ? str.substring(1) : str;
+            } else {
+                output[i] = item;
+            }
+        }
         // End Solution Edits
         printOutputWithType(output, true);
     }
 
     public static void main(String[] args) {
-        final String ucid = "mt85"; // <-- change to your UCID
+        final String ucid = "ggi"; // <-- change to your UCID
         // no edits below this line
         printHeader(ucid, 3);
         bePositive(array1, 1);
