@@ -25,13 +25,32 @@ public class Scenario1 extends BaseClass {
         // Step 3: Add code to solve the problem (add/commit as needed)
         // Start Solution Edits
 
+        // Ucid - ggi 
+        // date : 10/06/2026
+        //Planing 
+        // . Loop throug the integer in the passed-in array which is "arr"
+        // See if the integer is odd using the module operstor (val % 2 !=0)
+        // THen keep track of if an odd number has alrdy been printed using the boolen flag
+        // If an odd number was printed, prepend a comman and space before printing the next odd value to avoid leading commas
+        // Then print each odd number 
+
+        boolean first = true; 
+        for (int num: arr) {
+            if (num % 2 != 0) {
+                if (!first){ 
+                    System.out.print(", "):
+                }
+                System.out.print(num);
+                first = false;    
+            }
+        }
         // End Solution Edits
         System.out.println("");
         System.out.println("______________________________________");
     }
 
     public static void main(String[] args) {
-        final String ucid = "mt85"; // <-- change to your UCID
+        final String ucid = "ggi"; // <-- change to your UCID
         // no edits below this line
         printHeader(ucid, 1);
         printOdds(array1, 1);
