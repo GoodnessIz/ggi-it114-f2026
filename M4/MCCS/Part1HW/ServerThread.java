@@ -12,13 +12,12 @@ import M4.MCCS.Part1HW.TextFX.Color;
 
 /**
  * Server-side handler for one connected client.
- * Each client gets its own thread so multiple clients can be served
- * concurrently.
+ * Each client gets its own thread so multiple clients can be served concurrently.
  */
 public class ServerThread extends Thread {
     private Socket client;
     private volatile boolean isRunning = false; // volatile so changes are visible across threads immediately
-    private ObjectOutputStream out; // field so sendToClient() can reach it after run() opens it
+    private ObjectOutputStream out;             // field so sendToClient() can reach it after run() opens it
     private Server server;
     private long clientId;
     private Consumer<ServerThread> onInitializationComplete;
@@ -47,8 +46,7 @@ public class ServerThread extends Thread {
     }
 
     /**
-     * Signals this thread to stop. Sets isRunning to false and interrupts the
-     * blocking readObject() call
+     * Signals this thread to stop. Sets isRunning to false and interrupts the blocking readObject() call
      * so the run() loop exits and the finally block handles cleanup.
      * Call from outside this thread only (e.g. from Server).
      */
@@ -63,9 +61,8 @@ public class ServerThread extends Thread {
 
     /**
      * Sends a message to this client.
-     *        
-     * @return true on success, false if the send failed (client likely
-     *         disconnected)
+     *
+     * @return true on success, false if the send failed (client likely disconnected)
      */
     protected boolean sendToClient(String message) {
         if (!isRunning) {
@@ -85,10 +82,9 @@ public class ServerThread extends Thread {
     public void run() {
         info("Thread starting");
         // ObjectOutputStream must be opened before ObjectInputStream on both sides.
-        // Reversing the order causes a deadlock: both sides block waiting for the
-        // other's stream header.
+        // Reversing the order causes a deadlock: both sides block waiting for the other's stream header.
         try (ObjectOutputStream out = new ObjectOutputStream(client.getOutputStream());
-                ObjectInputStream in = new ObjectInputStream(client.getInputStream())) {
+             ObjectInputStream in = new ObjectInputStream(client.getInputStream())) {
             this.out = out;
             isRunning = true;
             onInitializationComplete.accept(this); // notify Server this thread is ready
@@ -136,8 +132,7 @@ public class ServerThread extends Thread {
 
     /**
      * Checks if the message is a command and handles it.
-     * Commands start with COMMAND_TRIGGER and are comma-separated:
-     * trigger,name,data
+     * Commands start with COMMAND_TRIGGER and are comma-separated: trigger,name,data
      * Example: [cmd],reverse,hello world
      *
      * @return true if a command was handled, false if plain text
@@ -164,6 +159,20 @@ public class ServerThread extends Thread {
                 String relevantText = String.join(" ", Arrays.copyOfRange(commandData, 2, commandData.length));
                 server.handleReverseText(this, relevantText);
                 return true;
+               /*
+                         ggi 10-25-26
+                         I found the right spot in the switch statement where commands are handled by checking the commandData array.
+                         I used Arrays.copyOfRange() to skip the first two command pieces because I only needed the rest, which is the message.
+                         I used String.join to put the message pieces back together with spaces
+                         Finally, I called the new method on the main server (server.handleShuffleText), and the cleaned-up message so the server could actually do the work.
+                         */
+                        case "shuffle":
+                            String textShuffle = String.join(" ", Arrays.copyOfRange(commandData,2,commandData.length));
+                            server.handleShuffleText(this, textShuffle);
+                            return true;
+                             case "flip":
+                server.handleFlip(this);
+                return true;         
             default:
                 return false;
         }
