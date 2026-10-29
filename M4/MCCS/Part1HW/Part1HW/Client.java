@@ -10,6 +10,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import M4.MCCS.Part1HW.TextFX.Color;
+/* 
+UCID: ggi
+Date: 10/25/26
+
+*Plan for Module 4 Sockets Challenges: 
+First check with an if statement if the user typed the /shuffle command
+Then I used .replace() and .trin() because i needed to chop off the actual command since i only need the messgae part 
+I also made an if statment that prints an error if the user only types /shuffle
+also added the format for the command names and finally i took those three pieces together and joined them together with commas. 
+*/
 
 /**
  * Demoing bi-directional communication between client and server in a
@@ -120,6 +130,17 @@ public class Client {
             String[] commandData = { Constants.COMMAND_TRIGGER, "reverse", text };
             sendToServer(String.join(",", commandData));
             wasCommand = true;
+            
+           else if (text.startsWith("/shuffle")) {
+            text = text.replace("/shuffle","").trim();
+            if(!text.isEmpty()) {
+                String[] data = {Constants.COMMAND_TRIGGER, "shuffle",text};
+                sendToServer(String.join(",", data));
+            } else {
+                System.out.println("Error, you need a message along with you command");    
+            }
+            wasCommand = true;
+           
         }
         return wasCommand;
     }

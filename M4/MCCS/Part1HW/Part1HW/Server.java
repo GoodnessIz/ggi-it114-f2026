@@ -8,6 +8,31 @@ import java.util.concurrent.ConcurrentHashMap;
 public class Server {
     private int port = 3000;
     // thread-safe map; multiple ServerThreads may call Server methods concurrently
+    /*
+    ggi 10-26-28
+    I created the new handShuffleText method because the asignment said the server needed an exposed method for the logic. 
+    Inside that method, I first called my private helper method, shuffleString(text), which takes the message and messes up the order of the characters.
+    I converted the string to an array so i could mess with individual characters, since you cant reorder characters in a standard java string.
+    I used a for loop and a random generator to shuffle the array by picking characters randomly and swapping them, which is a common trick. 
+    I used string.format() to build the final message.
+    */
+   protected void handleShuffleText(ServerThread sender, String text) {
+    String shuffledText = shuffleString(text);
+    String message = String.format("Shuffled from User: " + sender.getClientId(), shuffledText);
+   }private String shuffleString(String text) {
+    char[] characters = text.toCharArray():
+    java.util.Random random = new java.util.Random();
+    for (int i = characters.length - 1; i > 0; i--) {
+        int j = random.nextInt(i + 1);
+        char temp = characters[i];
+        characters[i] = characters[j];
+        characters[j] = temp;
+    }
+
+    return new String(characters);
+
+}
+
     private final ConcurrentHashMap<Long, ServerThread> connectedClients = new ConcurrentHashMap<>();
     private boolean isRunning = true;
 
