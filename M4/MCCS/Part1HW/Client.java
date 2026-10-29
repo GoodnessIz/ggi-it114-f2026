@@ -13,7 +13,7 @@ import M4.MCCS.Part1HW.TextFX.Color;
 
 /**
  * Demoing bi-directional communication between client and server in a
- * multi-client scenario 
+ * multi-client scenario
  */
 public class Client {
 
@@ -29,7 +29,7 @@ public class Client {
         System.out.println("Client Created");
     }
 
-    public boolean isConnected() {    
+    public boolean isConnected() {
         if (server == null) {
             return false;
         }
@@ -63,7 +63,7 @@ public class Client {
             e.printStackTrace();
         }
         return isConnected();
-    } 
+    }
 
     /**
      * <p>
@@ -114,13 +114,44 @@ public class Client {
             String[] commandData = { Constants.COMMAND_TRIGGER, "disconnect" };
             sendToServer(String.join(",", commandData));
             wasCommand = true;
-        } else if (text.startsWith("/reverse")) {
+            } else if (text.startsWith("/reverse")) {
             text = text.replace("/reverse", "").trim();
             // index 0 = trigger, index 1 = command, index N = command data
             String[] commandData = { Constants.COMMAND_TRIGGER, "reverse", text };
             sendToServer(String.join(",", commandData));
             wasCommand = true;
+         /*
+         ggi 10-25-26
+         1. First I needed to check with an if statemnt to check if the user typed the /shuffle command.
+         2. Then I used .replace() and .trim() because I needed to chop off the actual command since I only need the message part.
+         3. I also made an if statement that prints an error if the user only types /shuffle.
+         4I also added the format for the command names and finnally i took those three pieces together and joined them together with commas.
+         */
+        } else if (text.startsWith("/shuffle")) {
+            text = text.replace("/shuffle", "").trim();
+            if (!text.isEmpty()) {
+                String[] data = { Constants.COMMAND_TRIGGER, "shuffle", text };
+                sendToServer(String.join(",", data));
+            } else {
+                System.out.println("Error, you need a message along with your command");
+            }
+            wasCommand = true;
+             } else if (text.trim().equalsIgnoreCase("/flip")) {
+            String[] flipData = { Constants.COMMAND_TRIGGER, "flip" };
+            sendToServer(String.join(",", flipData));
+            wasCommand = true;
+            } else if (text.startsWith("/pm")) {
+            // expected: /pm <target id> <message>
+            String[] pmParts = text.trim().split("\\s+", 3);
+            if (pmParts.length < 3) {
+                System.out.println("Usage: /pm <target id> <message>");
+            } else {
+                String[] pmData = { Constants.COMMAND_TRIGGER, "pm", pmParts[1], pmParts[2] };
+                sendToServer(String.join(",", pmData));
+            }
+            wasCommand = true;
         }
+
         return wasCommand;
     }
 
@@ -135,7 +166,7 @@ public class Client {
     }
 
     /**
-     * Listens for messages from the server
+     * Listens for messages from server
      */
     private void listenToServer() {
         try {

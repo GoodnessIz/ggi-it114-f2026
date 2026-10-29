@@ -15,7 +15,7 @@ public abstract class TextFX {
      * Important: This does not satisfy the text formatting feature/requirement for
      * chatroom projects.
      * </p>
-     */          
+     */
     public enum Color {
         BLACK("\033[0;30m"),
         RED("\033[0;31m"),
