@@ -172,7 +172,20 @@ public class ServerThread extends Thread {
                             return true;
                              case "flip":
                 server.handleFlip(this);
-                return true;         
+                return true;     
+                case "pm":
+                if (commandData.length < 4) {
+                    sendToClient("Usage: /pm <target id> <message>");
+                    return true;
+                }
+                try {
+                    long targetId = Long.parseLong(commandData[2].trim());
+                    String pmText = String.join(" ", Arrays.copyOfRange(commandData, 3, commandData.length));
+                    server.handlePrivateMessage(this, targetId, pmText);
+                } catch (NumberFormatException e) {
+                    sendToClient("Invalid target id: " + commandData[2]);
+                }
+                return true;    
             default:
                 return false;
         }

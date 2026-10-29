@@ -27,6 +27,19 @@ public class Server {
         broadcast(null, String.format("User[%s] flipped a coin and got %s", sender.getClientId(), result));
     }
 
+        protected synchronized void handlePrivateMessage(ServerThread sender, long targetId, String text) {
+        ServerThread target = connectedClients.get(targetId);
+        if (target == null) {
+            sender.sendToClient(String.format("Server: User[%s] is not connected", targetId));
+            return;
+        }
+        String formatted = String.format("PM from User[%s]: %s", sender.getClientId(), text);
+        target.sendToClient(formatted);
+        if (target != sender) {
+            sender.sendToClient(formatted); // sender sees their own PM too
+        }
+    }
+
     private String shuffleString(String text) {
         char[] characters = text.toCharArray();
 
