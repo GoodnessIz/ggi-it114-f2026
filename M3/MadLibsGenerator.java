@@ -36,7 +36,7 @@ public class MadLibsGenerator extends BaseClass {
         List<String> lines = new ArrayList<>();
         // Start edits
          /*
-          * ggi 10-14-26
+          * ggi 10-14-26                          
           * Because of the array list, i decided to just use .add() and copy and paste
           * one of the stories from the stories folder which is story1.txt.
           * I then checked if any line contained any placeholders by seeing if it
